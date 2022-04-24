@@ -1,5 +1,4 @@
 import tweepy
-import requests
 import os
 
 bearer_token = os.environ['TWITTER_BEARER_TOKEN']
@@ -33,6 +32,7 @@ class TwitterBot:
 
         print('Please authorize: ' + auth_url)
 
+        # verifier is the oauth token in your url
         verifier = input('PIN: ').strip()
 
         auth.get_access_token(verifier)
