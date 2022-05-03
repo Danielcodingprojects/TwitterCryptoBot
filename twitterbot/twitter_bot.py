@@ -1,7 +1,6 @@
 import tweepy
 import os
 
-bearer_token = os.environ['TWITTER_BEARER_TOKEN']
 client_id = os.environ['TWITTER_CLIENT_ID']
 client_secret = os.environ['TWITTER_CLIENT_SECRET']
 
@@ -12,17 +11,14 @@ class TwitterBot:
         self.consumer_secret = os.environ['TWITTER_CONSUMER_SECRET']
         self.access_token = os.environ['TWITTER_ACCESS_TOKEN']
         self.access_token_secret = os.environ['TWITTER_ACCESS_TOKEN_SECRET']
+        self.bearer_token = os.environ['TWITTER_BEARER_TOKEN']
+        self.account_id = 1517899963300261888
 
         self.client = tweepy.Client(
             consumer_key=self.consumer_key, consumer_secret=self.consumer_secret,
-            access_token=self.access_token, access_token_secret=self.access_token_secret
+            access_token=self.access_token, access_token_secret=self.access_token_secret,
+            bearer_token=self.bearer_token
         )
-
-    def send_tweet(self, message):
-        response = self.client.create_tweet(
-            text=message
-        )
-        print(f"https://twitter.com/user/status/{response.data['id']}")
 
     def authenticate(self):
 
@@ -39,4 +35,16 @@ class TwitterBot:
 
         print("ACCESS_KEY = '%s'" % auth.access_token)
         print("ACCESS_SECRET = '%s'" % auth.access_token_secret)
+
+    def send_tweet(self, message):
+        response = self.client.create_tweet(
+            text=message
+        )
+        print(f"https://twitter.com/user/status/{response.data['id']}")
+
+    def get_recent_tweets(self, amount):
+        response = self.client.get_users_tweets(self.account_id, max_results=amount)
+        print(response)
+
+
 
