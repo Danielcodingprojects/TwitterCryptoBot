@@ -11,7 +11,6 @@ class TransactionChecker:
     def get_status(self):
         url = f'https://api.whale-alert.io/v1/status?api_key={self.api_key}'
         status = requests.get(url).json()
-
         return status
 
     def get_transactions(self):

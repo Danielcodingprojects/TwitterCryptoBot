@@ -1,11 +1,14 @@
+from twitterbot import db
+from twitterbot.db_models import FollowerCount
 import tweepy
 import os
+from datetime import datetime
 
 client_id = os.environ['TWITTER_CLIENT_ID']
 client_secret = os.environ['TWITTER_CLIENT_SECRET']
 
 
-class TwitterBot:
+class Bot:
     def __init__(self):
         self.consumer_key = os.environ['TWITTER_CONSUMER_KEY']
         self.consumer_secret = os.environ['TWITTER_CONSUMER_SECRET']
@@ -45,6 +48,17 @@ class TwitterBot:
     def get_recent_tweets(self, amount):
         response = self.client.get_users_tweets(self.account_id, max_results=amount)
         print(response)
+
+    def get_public_metrics(self):
+        response = self.client.get_user(id=self.account_id, user_fields=['public_metrics'])
+        data = response.data
+        new_entry = FollowerCount(
+            count=data.public_metrics['followers_count'],
+            datetime=datetime.today()
+        )
+        db.session.add(new_entry)
+        db.session.commit()
+
 
 
 

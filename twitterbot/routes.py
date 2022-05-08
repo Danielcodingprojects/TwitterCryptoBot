@@ -5,9 +5,12 @@ from twitterbot.forms import LoginForm, RegisterForm
 from twitterbot.db_models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
+from twitterbot.twitter_bot import Bot
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+bot = Bot()
 
 
 @login_manager.user_loader
@@ -70,6 +73,7 @@ def register_admin():
 @app.route('/dashboard')
 @login_required
 def dashboard():
+    # TODO; Make func that pulls these stats from DB
     follower_count = [100, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100]
     follower_dates = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
     return render_template('dashboard.html', follower_count=follower_count, follower_dates=follower_dates)
