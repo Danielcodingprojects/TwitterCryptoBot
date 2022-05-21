@@ -11,11 +11,29 @@ class User(db.Model, UserMixin):
 
 class FollowerCount(db.Model):
     __tablename__ = "follower_count"
-    id = db.Column(db.Integer, primary_key=True)
+    datetime = db.Column(db.DateTime, primary_key=True)
     count = db.Column(db.Integer, nullable=False)
-    datetime = db.Column(db.DateTime, nullable=False)
 
 
 class Tweets(db.Model):
-    # TODO; Make db to store send tweets in
-    pass
+    __tablename__ = "tweet"
+    tweet_id = db.Column(db.Integer, primary_key=True)
+    tweet_body = db.Column(db.String(300), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
+
+
+class Transactions(db.Model):
+    __tablename__ = "transactions"
+    id = db.Column(db.Integer, primary_key=True)
+    blockchain = db.Column(db.String(255), nullable=False)
+    coin = db.Column(db.String(255), nullable=False)
+    amount_crypto = db.Column(db.Integer, nullable=False)
+    amount_usd = db.Column(db.Integer, nullable=False)
+    hash = db.Column(db.String(255), nullable=False)
+    from_addr = db.Column(db.String(255), nullable=False)
+    to_addr = db.Column(db.String(255), nullable=False)
+
+
+class Pagination_Key(db.Model):
+    __tablename__ = "pagination_key"
+    cursor = db.Column(db.String(255), primary_key=True)
